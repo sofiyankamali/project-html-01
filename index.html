@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TANRASA - Minuman & Cemilan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .logo-container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+    }
+
+    /* Outer circle */
+    .outer-circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .outer-circle circle {
+      fill: none;
+      stroke: #c5a55a;
+      stroke-width: 2.5;
+      stroke-dasharray: 1507;
+      stroke-dashoffset: 1507;
+      animation: drawCircle 2s ease-in-out 0.3s forwards;
+    }
+
+    /* Inner circle / background */
+    .inner-circle {
+      position: absolute;
+      top: 3%;
+      left: 3%;
+      width: 94%;
+      height: 94%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 45%, #1a3a2a, #0d2418, #091a10);
+      opacity: 0;
+      animation: fadeIn 1.5s ease 0.8s forwards;
+    }
+
+    /* Crescent arc */
+    .crescent {
+      position: absolute;
+      top: 8%;
+      left: 15%;
+      width: 70%;
+      height: 70%;
+    }
+
+    .crescent path {
+      fill: none;
+      stroke: #c5a55a;
+      stroke-width: 2;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: drawCrescent 1.5s ease-in-out 1.5s forwards;
+    }
+
+    /* Cup */
+    .cup-group {
+      position: absolute;
+      top: 22%;
+      left: 30%;
+      width: 40%;
+      height: 45%;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 1s ease-out 2s forwards;
+    }
+
+    .cup-group svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Leaves */
+    .leaves {
+      position: absolute;
+      top: 32%;
+      left: 22%;
+      width: 20%;
+      height: 25%;
+      opacity: 0;
+      transform: scale(0.5) rotate(-20deg);
+      transform-origin: bottom right;
+      animation: growLeaves 1s ease-out 2.3s forwards;
+    }
+
+    /* Bowl */
+    .bowl-group {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      width: 25%;
+      height: 20%;
+      opacity: 0;
+      transform: translateX(10px) translateY(10px);
+      animation: slideIn 0.8s ease-out 2.5s forwards;
+    }
+
+    /* Brand name */
+    .brand-name {
+      position: absolute;
+      bottom: 23%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 2.6rem;
+      letter-spacing: 0.6em;
+      color: #c5a55a;
+      white-space: nowrap;
+      opacity: 0;
+      animation: revealText 1.2s ease-out 3s forwards;
+    }
+
+    /* Decorative lines */
+    .decorative-lines {
+      position: absolute;
+      bottom: 19%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 3.5s forwards;
+    }
+
+    .decorative-lines::before,
+    .decorative-lines::after {
+      content: '';
+      position: absolute;
+      height: 1px;
+      background: #c5a55a;
+      animation: expandLine 1s ease-out 3.6s forwards;
+    }
+
+    .decorative-lines::before {
+      top: 0;
+      left: 50%;
+      width: 0;
+      transform: translateX(-50%);
+    }
+
+    .decorative-lines::after {
+      top: 6px;
+      left: 50%;
+      width: 0;
+      transform: translateX(-50%);
+    }
+
+    /* Small leaf ornament */
+    .leaf-ornament {
+      position: absolute;
+      bottom: 16.5%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: fadeIn 0.6s ease 3.8s forwards;
+    }
+
+    /* Tagline */
+    .tagline {
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 0.4em;
+      color: #c5a55a;
+      white-space: nowrap;
+      opacity: 0;
+      animation: revealText 1s ease-out 4s forwards;
+    }
+
+    /* Shimmer effect on gold elements */
+    .shimmer {
+      animation: shimmer 3s ease-in-out 5s infinite;
+    }
+
+    /* Ambient glow */
+    .glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60%;
+      height: 60%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(197, 165, 90, 0.08) 0%, transparent 70%);
+      opacity: 0;
+      animation: pulseGlow 4s ease-in-out 4.5s infinite;
+    }
+
+    @keyframes drawCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes drawCrescent {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes growLeaves {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+      }
+    }
+
+    @keyframes revealText {
+      0% {
+        opacity: 0;
+        letter-spacing: 1.2em;
+      }
+      100% {
+        opacity: 1;
+        letter-spacing: 0.6em;
+      }
+    }
+
+    @keyframes expandLine {
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% {
+        filter: brightness(1);
+      }
+      50% {
+        filter: brightness(1.3);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .float-animation {
+      animation: float 4s ease-in-out 5s infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-container float-animation">
+    <!-- Outer gold circle -->
+    <svg class="outer-circle" viewBox="0 0 500 500">
+      <circle cx="250" cy="250" r="240"/>
+    </svg>
+
+    <!-- Dark green inner circle -->
+    <div class="inner-circle"></div>
+
+    <!-- Ambient glow -->
+    <div class="glow"></div>
+
+    <!-- Crescent arc -->
+    <svg class="crescent" viewBox="0 0 300 300">
+      <path d="M 230 60 A 140 140 0 0 1 260 200 Q 250 120 180 60" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Cup illustration -->
+    <div class="cup-group shimmer">
+      <svg viewBox="0 0 120 140" fill="none">
+        <!-- Straw -->
+        <line x1="75" y1="5" x2="58" y2="45" stroke="#c5a55a" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Cup lid -->
+        <ellipse cx="55" cy="42" rx="30" ry="6" fill="#1a3a2a" stroke="#c5a55a" stroke-width="2"/>
+        <!-- Cup lid top -->
+        <rect x="38" y="35" width="34" height="8" rx="3" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <!-- Cup body -->
+        <path d="M 25 48 L 30 110 Q 31 118 40 120 L 70 120 Q 79 118 80 110 L 85 48" fill="#1a3a2a" stroke="#c5a55a" stroke-width="2"/>
+        <!-- Cup ridges -->
+        <line x1="28" y1="60" x2="82" y2="60" stroke="#c5a55a" stroke-width="1" opacity="0.5"/>
+        <line x1="29" y1="72" x2="81" y2="72" stroke="#c5a55a" stroke-width="1" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- Leaves -->
+    <div class="leaves shimmer">
+      <svg viewBox="0 0 80 100" fill="none">
+        <!-- Leaf 1 (top) -->
+        <path d="M 60 20 Q 40 10 30 30 Q 45 25 60 20" fill="#2a5a3a" stroke="#c5a55a" stroke-width="1"/>
+        <line x1="45" y1="18" x2="38" y2="28" stroke="#c5a55a" stroke-width="0.5" opacity="0.6"/>
+        <!-- Leaf 2 (middle) -->
+        <path d="M 55 40 Q 30 28 20 50 Q 40 42 55 40" fill="#1e4a30" stroke="#c5a55a" stroke-width="1"/>
+        <line x1="38" y1="37" x2="28" y2="47" stroke="#c5a55a" stroke-width="0.5" opacity="0.6"/>
+        <!-- Leaf 3 (bottom) -->
+        <path d="M 50 60 Q 25 50 18 72 Q 35 62 50 60" fill="#2a5a3a" stroke="#c5a55a" stroke-width="1"/>
+        <line x1="35" y1="58" x2="25" y2="68" stroke="#c5a55a" stroke-width="0.5" opacity="0.6"/>
+        <!-- Stem -->
+        <path d="M 60 15 Q 55 45 48 75" fill="none" stroke="#c5a55a" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Bowl with toppings -->
+    <div class="bowl-group shimmer">
+      <svg viewBox="0 0 100 80" fill="none">
+        <!-- Bowl -->
+        <path d="M 10 30 Q 12 65 50 68 Q 88 65 90 30" fill="#1a3a2a" stroke="#c5a55a" stroke-width="2"/>
+        <!-- Bowl rim -->
+        <ellipse cx="50" cy="30" rx="40" ry="8" fill="#1a3a2a" stroke="#c5a55a" stroke-width="2"/>
+        <!-- Toppings (balls) -->
+        <circle cx="30" cy="28" r="5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="42" cy="25" r="5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="55" cy="26" r="5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="67" cy="28" r="5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="36" cy="18" r="4.5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="48" cy="16" r="4.5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+        <circle cx="60" cy="18" r="4.5" fill="#1a3a2a" stroke="#c5a55a" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- Brand name -->
+    <div class="brand-name shimmer">TANRASA</div>
+
+    <!-- Decorative lines -->
+    <div class="decorative-lines"></div>
+
+    <!-- Small leaf ornament -->
+    <div class="leaf-ornament shimmer">
+      <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+        <path d="M 12 14 Q 6 8 2 2 Q 8 6 12 4 Q 16 6 22 2 Q 18 8 12 14" fill="#c5a55a" opacity="0.8"/>
+      </svg>
+    </div>
+
+    <!-- Tagline -->
+    <div class="tagline shimmer">MINUMAN &amp; CEMILAN</div>
+  </div>
+
+</body>
+</html>
